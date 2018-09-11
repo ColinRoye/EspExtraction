@@ -1,13 +1,4 @@
 %%Permittivity extraction from Near-field S3 real and imaginary images
-
-
-
-
-
-
-
- %%mode number represents which model to use for permittivity extration. Mode 1 uses Tat's model. Mode 2 uses Alex's model; Mode 3 uses
-% point-dipole model
 mode = 1;
 %load experimental images
 reals=load('S3_real.txt');
