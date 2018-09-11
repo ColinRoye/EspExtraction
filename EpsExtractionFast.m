@@ -45,13 +45,9 @@ constants_ref=constants(y,x);
 %normalized images to library scale
 experimental=experimental.*constants_ref/experimental(y_ref,x_ref);
 
-%a=gpuArray(a);
-%constants=gpuArray(constants);
-%convert into array for simplicity (constant time)
 
 
 
-%esp = zeros(size(experimental));
 originalConstants = constants;
 originalExp = experimental;
 
@@ -63,7 +59,6 @@ constants = constants(:);
 %in the original matrix, That index can be converted to a subscript with
 %ind2sub()
 [constants, IC] = sort(constants, 'descend');
-%[experimental, IE] = sort(experimental, 'descend');
 
 
 for i = 1:size(experimental)
@@ -143,10 +138,6 @@ function [np, index] = nearestPointHelper(radius,centerPoint, constants, left_in
  currentIndex = -1;
  %add left to circle
  while(left_index  > 0 & (abs(centerPoint) + radius) > (abs(constants(left_index))) )
-        %if current value is some distance away from center point
-        %term_1 = (real(centerPoint) - real(constants(right_index)))^2;
-        %term_2 = (img(centerPoint) - img(constants(right_index)))^2;
-        %distance = sqrt(term_1+ term_2);
         distance = centerPoint - constants(left_index);
         if(distance <= radius)
                if(currentIndex ~= -1)
@@ -164,14 +155,10 @@ function [np, index] = nearestPointHelper(radius,centerPoint, constants, left_in
 
 %add right to circle
  while(right_index < size(constants) & abs(centerPoint) - radius) > (abs(constants(right_index)))
-        %if current value is some distance away from center point
-        %term_1 = (real(centerPoint) - real(constants(left_index)))^2;
-        %term_2 = (img(centerPoint) - img(constants(left_index)))^2;
-        %distance = sqrt(term_1+ term_2);
+
        distance = centerPoint - constants(right_index);
        if(distance <= radius)
             if(currentIndex ~= -1)
-           % currentIndexDist = constants(currentIndex) - ccenterPoint;
             end
             if(currentIndex == -1 || currentIndexDist < distance)
                 currentIndex = right_index;
